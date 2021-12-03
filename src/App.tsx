@@ -1,26 +1,80 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC } from 'react';
+import {
+  AppBar,
+  Container,
+  CssBaseline,
+  Fab,
+  Toolbar,
+  Typography,
+  useScrollTrigger,
+  Zoom,
+} from '@mui/material';
+import { Box } from '@mui/system';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface Props {
+  window?: () => Window;
+  children?: React.ReactElement;
 }
+
+const ScrollTop: FC<Props> = (props) => {
+  const { children, window } = props;
+  const trigger = useScrollTrigger({
+    target: window ? window() : undefined,
+    disableHysteresis: true,
+    threshold: 100,
+  });
+
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    const anchor = ((event.target as HTMLDivElement).ownerDocument || document).querySelector(
+      '#back-to-top-anchor',
+    );
+
+    if (anchor) {
+      anchor.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  };
+
+  return (
+    <Zoom in={trigger}>
+      <Box
+        onClick={handleClick}
+        role="presentation"
+        sx={{ position: 'fixed', bottom: 16, right: 16 }}
+      >
+        {children}
+      </Box>
+    </Zoom>
+  );
+};
+
+const App: FC<Props> = (props) => {
+  return (
+    <>
+      <CssBaseline />
+      <AppBar>
+        <Toolbar>
+          <Typography variant="h6" component="div">
+            Commenting Tool
+          </Typography>
+          {/* {//TODO user selector} */}
+        </Toolbar>
+      </AppBar>
+      <Toolbar id="back-to-top-anchor" />
+      <Container>
+        <Box sx={{ my: 2 }}>{/* {//TODO content} */}</Box>
+      </Container>
+
+      <ScrollTop {...props}>
+        <Fab color="secondary" size="small" aria-label="scroll back to top">
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTop>
+    </>
+  );
+};
 
 export default App;
