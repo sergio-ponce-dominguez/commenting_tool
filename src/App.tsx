@@ -19,6 +19,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { getAllUser, getCurrentUser } from './redux/selectors/user.selector';
 import { useSelector } from 'react-redux';
 import { useTypedDispatch } from './utils/hooks';
+import Body from './components/Body';
 
 interface Props {
   window?: () => Window;
@@ -26,9 +27,8 @@ interface Props {
 }
 
 const ScrollTop: FC<Props> = (props) => {
-  const { children, window } = props;
   const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
+    target: props.window ? props.window() : undefined,
     disableHysteresis: true,
     threshold: 100,
   });
@@ -53,7 +53,7 @@ const ScrollTop: FC<Props> = (props) => {
         role="presentation"
         sx={{ position: 'fixed', bottom: 16, right: 16 }}
       >
-        {children}
+        {props.children}
       </Box>
     </Zoom>
   );
@@ -127,7 +127,9 @@ const App: FC<Props> = (props) => {
       </AppBar>
       <Toolbar id="back-to-top-anchor" />
       <Container>
-        <Box sx={{ my: 2 }}>{/* {//TODO content} */}</Box>
+        <Box sx={{ my: 2 }}>
+          <Body />
+        </Box>
       </Container>
 
       <ScrollTop {...props}>
