@@ -1,3 +1,3 @@
 import { Action } from 'redux';
 
-export type UserActions = Action<'comment/add'> & { payload: any };
+export type UserActions = Action<'user/select'> & { payload: { userId: string } };
