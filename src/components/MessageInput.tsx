@@ -41,7 +41,8 @@ const MessageInput: FC<Props> = (props) => {
         style={{
           minWidth: '100%',
           maxWidth: '100%',
-          minHeight: '138px',
+          minHeight: '139px',
+          height: '139px',
           overflow: 'auto',
           lineHeight: 'inherit',
           borderRadius: 5,

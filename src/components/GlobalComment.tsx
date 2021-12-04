@@ -14,7 +14,7 @@ const GlobalComment: FC = () => {
 
   const onSubmit = (text: string) => {
     currentUser &&
-      dispatch({ type: 'comment/add', payload: { text, parentId: null, userId: currentUser.id } });
+      dispatch({ type: 'comment/add', payload: { text, parentId: '', userId: currentUser.id } });
   };
 
   return (

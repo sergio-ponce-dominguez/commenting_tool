@@ -9,10 +9,6 @@ type State = {
   users: ById<User>;
   currentUserId: string;
 
-  /**
-   * ids of the global messages
-   */
-  globalMessages: { [id: string]: null };
   messages: ById<Message>;
 };
 
@@ -28,13 +24,18 @@ const initialState: State = {
     '7': { id: '7', name: 'Karla' },
   },
 
-  globalMessages: {},
-  messages: {},
+  messages: {
+    '': { date: new Date(), id: '', parentId: '', replies: {}, text: '', userId: '', vote: 0 },
+  },
 };
 
 const map: ReduceMap<State, Action> = {
   'comment/add': (state, action) => {
     const { parentId, text, userId } = action.payload;
+    const parent = state.messages[parentId];
+    if (!parent) {
+      return state;
+    }
     const newMessage: Message = {
       parentId,
       text,
@@ -44,12 +45,14 @@ const map: ReduceMap<State, Action> = {
       replies: {},
       id: getNextId(),
     };
-    const messages: ById<Message> = { ...state.messages, [newMessage.id]: newMessage };
-    let globalMessages = state.globalMessages;
-    if (parentId === null) {
-      globalMessages = { ...globalMessages, [newMessage.id]: null };
-    }
-    return { ...state, messages, globalMessages };
+    const replies = { ...parent.replies, [newMessage.id]: null };
+    const modifiedParent: Message = { ...parent, replies };
+    const messages: ById<Message> = {
+      ...state.messages,
+      [newMessage.id]: newMessage,
+      [parentId]: modifiedParent,
+    };
+    return { ...state, messages };
   },
   'user/select': (state, action) => {
     const { userId } = action.payload;

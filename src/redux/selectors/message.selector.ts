@@ -5,5 +5,5 @@ const getDataReducer = (state: RootReducerType) => state.data;
 
 export const getMessageCount = createSelector(
   getDataReducer,
-  ({ messages }) => Object.keys(messages).length,
+  ({ messages }) => Object.keys(messages).length - 1,
 );

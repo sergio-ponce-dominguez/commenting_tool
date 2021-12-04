@@ -18,12 +18,12 @@ export type Message = {
   date: Date;
 
   /**
-   * each message has a parent message, except for the top messages
-   * that haven null as their father
+   * each message has a parent message, the top messages
+   * that haven '' as their father
    */
-  parentId: string | null;
+  parentId: string;
   /**
    * ids of all the messages that have this one as a parent
    */
-  replies: {[id:string]:null};
+  replies: { [id: string]: null };
 };

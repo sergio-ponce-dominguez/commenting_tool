@@ -24,10 +24,10 @@ const SortByMenu: FC = () => {
         }}
         variant="standard"
       >
-        <MenuItem value="date_up">Sort by date up</MenuItem>
         <MenuItem value="date_down">Sort by date down</MenuItem>
-        <MenuItem value="vote_up">Sort by vote up</MenuItem>
+        <MenuItem value="date_up">Sort by date up</MenuItem>
         <MenuItem value="vote_down">Sort by vote down</MenuItem>
+        <MenuItem value="vote_up">Sort by vote up</MenuItem>
       </Select>
     </Box>
   );
