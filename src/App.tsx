@@ -126,7 +126,7 @@ const App: FC<Props> = (props) => {
         </Toolbar>
       </AppBar>
       <Toolbar id="back-to-top-anchor" />
-      <Container>
+      <Container maxWidth="sm">
         <Box sx={{ my: 2 }}>
           <Body />
         </Box>

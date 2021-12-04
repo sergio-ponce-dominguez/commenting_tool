@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Box } from '@mui/system';
 import { TextareaAutosize } from '@mui/base';
-import { Button } from '@mui/material';
+import { Button, Tooltip } from '@mui/material';
 
 interface Props {
   /**
@@ -47,6 +47,7 @@ const MessageInput: FC<Props> = (props) => {
           borderRadius: 5,
           borderColor: 'lightgray',
           borderBottomWidth: '32px',
+          padding: 10,
         }}
         aria-label="textarea"
         placeholder="What are your thoughts?"
@@ -55,40 +56,47 @@ const MessageInput: FC<Props> = (props) => {
       />
       <Box sx={{ float: 'right', bottom: 36, right: 20, position: 'relative' }}>
         {props.onCancel && (
-          <Button
-            variant="text"
-            size="small"
-            color="primary"
-            style={{
-              textTransform: 'none',
-              height: 25,
-              borderRadius: 50,
-              paddingLeft: 15,
-              paddingRight: 15,
-              fontWeight: 'bold',
-              marginRight: 20,
-            }}
-            onClick={onCancel}
-          >
-            Cancel
-          </Button>
+          <Tooltip title="Cancel this comment">
+            <Button
+              variant="text"
+              size="small"
+              color="primary"
+              style={{
+                textTransform: 'none',
+                height: 25,
+                borderRadius: 50,
+                paddingLeft: 15,
+                paddingRight: 15,
+                fontWeight: 'bold',
+                marginRight: 20,
+              }}
+              onClick={onCancel}
+            >
+              Cancel
+            </Button>
+          </Tooltip>
         )}
-        <Button
-          variant="contained"
-          size="small"
-          color="primary"
-          style={{
-            textTransform: 'none',
-            height: 25,
-            borderRadius: 50,
-            paddingLeft: 15,
-            paddingRight: 15,
-            fontWeight: 'bold',
-          }}
-          onClick={onSubmit}
-        >
-          {props.buttonText || 'Action'}
-        </Button>
+        <Tooltip title="Submit this comment">
+          <span>
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              style={{
+                textTransform: 'none',
+                height: 25,
+                borderRadius: 50,
+                paddingLeft: 15,
+                paddingRight: 15,
+                fontWeight: 'bold',
+              }}
+              onClick={onSubmit}
+              disabled={message === ''}
+            >
+              {props.buttonText || 'Action'}
+            </Button>
+          </span>
+        </Tooltip>
       </Box>
     </Box>
   );
