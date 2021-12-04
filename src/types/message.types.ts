@@ -16,6 +16,10 @@ export type Message = {
    * date of creation
    */
   date: Date;
+  /**
+   * if true, this message was edited
+   */
+  edited: boolean;
 
   /**
    * each message has a parent message, the top messages

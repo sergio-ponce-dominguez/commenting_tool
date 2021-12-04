@@ -25,7 +25,16 @@ const initialState: State = {
   },
 
   messages: {
-    '': { date: new Date(), id: '', parentId: '', replies: {}, text: '', userId: '', vote: 0 },
+    '': {
+      date: new Date(),
+      id: '',
+      parentId: '',
+      replies: {},
+      text: '',
+      userId: '',
+      vote: 0,
+      edited: false,
+    },
   },
 };
 
@@ -44,6 +53,7 @@ const map: ReduceMap<State, Action> = {
       vote: 0,
       replies: {},
       id: getNextId(),
+      edited: false,
     };
     const replies = { ...parent.replies, [newMessage.id]: null };
     const modifiedParent: Message = { ...parent, replies };

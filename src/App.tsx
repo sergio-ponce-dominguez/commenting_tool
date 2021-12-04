@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import {
   AppBar,
   Avatar,
@@ -63,7 +63,7 @@ const App: FC<Props> = (props) => {
   const currentUser = useSelector(getCurrentUser);
   const userList = useSelector(getAllUser);
 
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const dispatch = useTypedDispatch();
 

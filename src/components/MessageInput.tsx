@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Box } from '@mui/system';
 import { TextareaAutosize } from '@mui/base';
 import { Button, Tooltip } from '@mui/material';
@@ -19,7 +19,7 @@ interface Props {
 }
 
 const MessageInput: FC<Props> = (props) => {
-  const [message, setMessage] = React.useState<string>('');
+  const [message, setMessage] = useState<string>('');
 
   const onSubmit = () => {
     if (props.onSubmit) {
