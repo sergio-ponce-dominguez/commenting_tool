@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
 import {
   AppBar,
-  Avatar,
   Container,
   CssBaseline,
   Fab,
@@ -16,10 +15,11 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { getAllUser, getCurrentUser } from './redux/selectors/user.selector';
+import { getAllUserList, getCurrentUserId } from './redux/selectors/user.selector';
 import { useSelector } from 'react-redux';
 import { useTypedDispatch } from './utils/hooks';
 import Body from './components/Body';
+import UserAvatar from './components/UserAvatar';
 
 interface Props {
   window?: () => Window;
@@ -60,8 +60,8 @@ const ScrollTop: FC<Props> = (props) => {
 };
 
 const App: FC<Props> = (props) => {
-  const currentUser = useSelector(getCurrentUser);
-  const userList = useSelector(getAllUser);
+  const currentUserId = useSelector(getCurrentUserId);
+  const userList = useSelector(getAllUserList);
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -91,11 +91,7 @@ const App: FC<Props> = (props) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Select User">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {currentUser ? (
-                  <Avatar alt={currentUser.name}>{currentUser.name.substr(0, 2)}</Avatar>
-                ) : (
-                  <Avatar alt="" />
-                )}
+                <UserAvatar userId={currentUserId} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -115,10 +111,10 @@ const App: FC<Props> = (props) => {
             >
               {userList.map((user) => (
                 <MenuItem key={user.id} onClick={handleSelectUser(user.id)}>
-                  <Avatar alt={user.name} sx={{ marginRight: 1 }}>
-                    {user.name.substr(0, 2)}
-                  </Avatar>
-                  <Typography textAlign="center">{user.name}</Typography>
+                  <UserAvatar userId={user.id} />
+                  <Typography sx={{ marginLeft: 1 }} textAlign="center">
+                    {user.name}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>

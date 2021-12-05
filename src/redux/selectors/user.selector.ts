@@ -9,4 +9,11 @@ export const getCurrentUser = createSelector(
   ({ currentUserId, users }) => users[currentUserId],
 );
 
-export const getAllUser = createSelector(getDataReducer, ({ users }) => fromByIdToList(users));
+export const getCurrentUserId = createSelector(
+  getDataReducer,
+  ({ currentUserId }) => currentUserId,
+);
+
+export const getUsers = createSelector(getDataReducer, ({ users }) => users);
+
+export const getAllUserList = createSelector(getDataReducer, ({ users }) => fromByIdToList(users));

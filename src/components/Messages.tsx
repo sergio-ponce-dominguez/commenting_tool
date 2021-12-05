@@ -2,6 +2,7 @@ import React, { FC, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { getMessages } from '../redux/selectors/message.selector';
 import { getSortOrder } from '../redux/selectors/ui.selector';
+import Message from './Message';
 
 interface Props {
   parentId: string;
@@ -46,7 +47,7 @@ const Messages: FC<Props> = (props) => {
   return (
     <>
       {sortedReplies.map((id) => (
-        <div key={id}>{id}</div>
+        <Message key={id} messageId={id} deep={props.deep} />
       ))}
     </>
   );
