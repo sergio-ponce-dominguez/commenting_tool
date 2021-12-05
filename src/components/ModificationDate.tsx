@@ -10,7 +10,7 @@ const ModificationDate: FC<Props> = (props) => {
   const [timeLapsed, setTimeLapsed] = useState('seconds');
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const updateTime = () => {
       const milliseconds = Date.now() - props.modified.getTime();
       const seconds = milliseconds / 1000;
       if (seconds < 60) {
@@ -33,7 +33,9 @@ const ModificationDate: FC<Props> = (props) => {
         return;
       }
       setTimeLapsed('months');
-    }, 60000);
+    };
+    const interval = setInterval(updateTime, 60000);
+    updateTime();
     return () => {
       clearInterval(interval);
     };

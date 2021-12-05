@@ -54,6 +54,7 @@ const MessageInput: FC<Props> = (props) => {
         placeholder="What are your thoughts?"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        autoFocus
       />
       <Box sx={{ float: 'right', bottom: 36, right: 20, position: 'relative' }}>
         {props.onCancel && (

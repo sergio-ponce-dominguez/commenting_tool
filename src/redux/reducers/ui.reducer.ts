@@ -7,7 +7,7 @@ type State = {
 };
 
 const initialState: State = {
-  sortOrder: 'date_down',
+  sortOrder: 'vote_down',
 };
 
 const map: ReduceMap<State, Action> = {

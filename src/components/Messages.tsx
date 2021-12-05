@@ -33,10 +33,10 @@ const Messages: FC<Props> = (props) => {
         );
         break;
       case 'vote_down':
-        repliesList.sort((a, b) => (messages[a]?.vote || 0) - (messages[b]?.vote || 0));
+        repliesList.sort((a, b) => (messages[b]?.vote || 0) - (messages[a]?.vote || 0));
         break;
       case 'vote_up':
-        repliesList.sort((a, b) => (messages[b]?.vote || 0) - (messages[a]?.vote || 0));
+        repliesList.sort((a, b) => (messages[a]?.vote || 0) - (messages[b]?.vote || 0));
         break;
       default:
         break;

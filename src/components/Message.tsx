@@ -12,6 +12,7 @@ import UserAvatar from './UserAvatar';
 import ModificationDate from './ModificationDate';
 import MessageInput from './MessageInput';
 import Messages from './Messages';
+import { useTypedDispatch } from '../utils/hooks';
 
 interface Props {
   messageId: string;
@@ -26,6 +27,8 @@ const Message: FC<Props> = (props) => {
   const [isShowInputArea, setIsShowInputArea] = useState(false);
   const [inputAreaAction, setInputAreaAction] = useState<'Reply' | 'Edit'>('Reply');
   const [isExpanded, setIsExpanded] = useState(true);
+
+  const dispatch = useTypedDispatch();
 
   const message = messages[props.messageId];
   const userId = message?.userId || '';
@@ -55,6 +58,45 @@ const Message: FC<Props> = (props) => {
     setIsExpanded(!isExpanded);
   };
 
+  const onCancel = () => {
+    setIsShowInputArea(false);
+  };
+
+  const onSubmit = (text: string) => {
+    if (message) {
+      if (inputAreaAction === 'Reply') {
+        dispatch({
+          type: 'comment/add',
+          payload: { text, parentId: props.messageId, userId: currentUserId },
+        });
+      } else if (inputAreaAction === 'Edit') {
+        dispatch({
+          type: 'comment/update',
+          payload: { text, messageId: props.messageId },
+        });
+      }
+    }
+    setIsShowInputArea(false);
+  };
+
+  const onUpVote = () => {
+    if (message) {
+      dispatch({
+        type: 'comment/upVote',
+        payload: { messageId: props.messageId },
+      });
+    }
+  };
+
+  const onDownVote = () => {
+    if (message) {
+      dispatch({
+        type: 'comment/downVote',
+        payload: { messageId: props.messageId },
+      });
+    }
+  };
+
   const messageInfo = (
     <Box key="message-info" display="flex" alignItems="center">
       <Box key="user-avatar">
@@ -75,7 +117,6 @@ const Message: FC<Props> = (props) => {
           <Box key="contract-message" width="42px" display="flex" justifyContent="center">
             <div onClick={toggleExpand} style={{ margin: 5 }}>
               <Box
-                // m="5px"
                 borderLeft="1px solid lightgray"
                 height="100%"
                 sx={{
@@ -91,7 +132,7 @@ const Message: FC<Props> = (props) => {
               <Box key="actions">
                 <Tooltip title="Vote up this message">
                   <span>
-                    <IconButton disabled={currentUserIsOwner}>
+                    <IconButton disabled={currentUserIsOwner} onClick={onUpVote}>
                       <KeyboardDoubleArrowUpIcon />
                     </IconButton>
                   </span>
@@ -99,7 +140,7 @@ const Message: FC<Props> = (props) => {
                 <Typography component="span">{message?.vote}</Typography>
                 <Tooltip title="Vote down this message">
                   <span>
-                    <IconButton disabled={currentUserIsOwner}>
+                    <IconButton disabled={currentUserIsOwner} onClick={onDownVote}>
                       <KeyboardDoubleArrowDownIcon />
                     </IconButton>
                   </span>
@@ -128,7 +169,13 @@ const Message: FC<Props> = (props) => {
                   </Tooltip>
                 )}
               </Box>
-              {isShowInputArea && <MessageInput buttonText={inputAreaAction} />}
+              {isShowInputArea && (
+                <MessageInput
+                  buttonText={inputAreaAction}
+                  onCancel={onCancel}
+                  onSubmit={onSubmit}
+                />
+              )}
             </Box>
             <Box key="replies">
               <Messages parentId={props.messageId} deep={props.deep + 1} />

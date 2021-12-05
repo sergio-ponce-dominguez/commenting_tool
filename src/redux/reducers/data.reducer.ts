@@ -68,6 +68,45 @@ const map: ReduceMap<State, Action> = {
     const { userId } = action.payload;
     return { ...state, currentUserId: userId };
   },
+  'comment/update': (state, action) => {
+    const { messageId, text } = action.payload;
+    const message = state.messages[messageId];
+    if (!message) {
+      return state;
+    }
+    const updatedMessage: Message = { ...message, text, edited: true, date: new Date() };
+    const messages: ById<Message> = {
+      ...state.messages,
+      [messageId]: updatedMessage,
+    };
+    return { ...state, messages };
+  },
+  'comment/upVote': (state, action) => {
+    const { messageId } = action.payload;
+    const message = state.messages[messageId];
+    if (!message) {
+      return state;
+    }
+    const updatedMessage: Message = { ...message, vote: message.vote + 1 };
+    const messages: ById<Message> = {
+      ...state.messages,
+      [messageId]: updatedMessage,
+    };
+    return { ...state, messages };
+  },
+  'comment/downVote': (state, action) => {
+    const { messageId } = action.payload;
+    const message = state.messages[messageId];
+    if (!message) {
+      return state;
+    }
+    const updatedMessage: Message = { ...message, vote: message.vote - 1 };
+    const messages: ById<Message> = {
+      ...state.messages,
+      [messageId]: updatedMessage,
+    };
+    return { ...state, messages };
+  },
 };
 
 export const dataReducer = makeReducer(map, initialState);
