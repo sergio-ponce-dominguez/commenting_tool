@@ -42,7 +42,7 @@ const ModificationDate: FC<Props> = (props) => {
   }, [props.modified]);
 
   return (
-    <Tooltip title={props.modified.toString()}>
+    <Tooltip title={props.modified.toString()} placement="top">
       <Typography>{`${props.edited ? 'Edited ' : ''}${timeLapsed} ago`}</Typography>
     </Tooltip>
   );

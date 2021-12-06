@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 import { getMessages } from '../redux/selectors/message.selector';
 import { getSortOrder } from '../redux/selectors/ui.selector';
 import Message from './Message';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { Button } from '@mui/material';
+import { useTypedDispatch } from '../utils/hooks';
 
 interface Props {
   parentId: string;
@@ -12,6 +15,8 @@ interface Props {
 const Messages: FC<Props> = (props) => {
   const messages = useSelector(getMessages);
   const sortOrder = useSelector(getSortOrder);
+
+  const dispatch = useTypedDispatch();
 
   const { replies } = messages[props.parentId] || { replies: {} };
 
@@ -43,6 +48,25 @@ const Messages: FC<Props> = (props) => {
     }
     return repliesList;
   }, [sortOrder, replies]);
+
+  const onContinueThread = () => {
+    dispatch({
+      type: 'currentMessageThread/set',
+      payload: { currentMessageThread: props.parentId },
+    });
+  };
+
+  if (props.deep <= 0 && sortedReplies.length > 0) {
+    return (
+      <Button
+        style={{ textTransform: 'none' }}
+        endIcon={<KeyboardArrowRightIcon />}
+        onClick={onContinueThread}
+      >
+        Continue this thread
+      </Button>
+    );
+  }
 
   return (
     <>

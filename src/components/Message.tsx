@@ -14,7 +14,6 @@ import MessageInput from './MessageInput';
 import Messages from './Messages';
 import { useTypedDispatch } from '../utils/hooks';
 import HorizontalListOverflow from './HorizontalListOverflow';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { getIndentWidth } from '../redux/selectors/ui.selector';
 
 interface Props {
@@ -138,7 +137,9 @@ const Message: FC<Props> = (props) => {
           </Box>
           <Box key="content" width="100%">
             <Box key="message-text">
-              <Typography marginLeft="2px">{message?.text}</Typography>
+              <Typography marginLeft="2px" component="div">
+                <pre style={{ fontFamily: 'inherit', margin: 0 }}>{message?.text}</pre>
+              </Typography>
               <HorizontalListOverflow
                 elements={[
                   <>
@@ -180,13 +181,7 @@ const Message: FC<Props> = (props) => {
               )}
             </Box>
             <Box key="replies">
-              {props.deep > 1 ? (
-                <Messages parentId={props.messageId} deep={props.deep - 1} />
-              ) : (
-                <Button style={{ textTransform: 'none' }} endIcon={<KeyboardArrowRightIcon />}>
-                  Continue this thread
-                </Button>
-              )}
+              <Messages parentId={props.messageId} deep={props.deep - 1} />
             </Box>
           </Box>
         </Box>
