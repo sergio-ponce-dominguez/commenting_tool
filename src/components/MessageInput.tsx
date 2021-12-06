@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import { TextareaAutosize } from '@mui/base';
 import { Button, Tooltip } from '@mui/material';
@@ -16,10 +16,14 @@ interface Props {
    * if defined a cancel button is showed and the callback is called when the cancel button is clicked
    */
   onCancel?: () => void;
+  /**
+   * initial text to show
+   */
+  initialText?: string;
 }
 
 const MessageInput: FC<Props> = (props) => {
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState<string>(props.initialText || '');
 
   const onSubmit = () => {
     if (props.onSubmit) {
@@ -34,6 +38,10 @@ const MessageInput: FC<Props> = (props) => {
       setMessage('');
     }
   };
+
+  useEffect(() => {
+    setMessage(props.initialText || '');
+  }, [props.initialText]);
 
   return (
     <Box>

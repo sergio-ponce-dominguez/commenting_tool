@@ -187,6 +187,7 @@ const Message: FC<Props> = (props) => {
                   buttonText={inputAreaAction}
                   onCancel={onCancel}
                   onSubmit={onSubmit}
+                  initialText={inputAreaAction === 'Edit' ? message?.text : undefined}
                 />
               )}
             </Box>
