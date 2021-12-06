@@ -6,7 +6,7 @@ import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrow
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import { useSelector } from 'react-redux';
 import { getMessages } from '../redux/selectors/message.selector';
-import { Button, IconButton, Tooltip, Typography } from '@mui/material';
+import { Button, IconButton, Typography } from '@mui/material';
 import { getCurrentUserId, getUsers } from '../redux/selectors/user.selector';
 import UserAvatar from './UserAvatar';
 import ModificationDate from './ModificationDate';
@@ -14,6 +14,8 @@ import MessageInput from './MessageInput';
 import Messages from './Messages';
 import { useTypedDispatch } from '../utils/hooks';
 import HorizontalListOverflow from './HorizontalListOverflow';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { getIndentWidth } from '../redux/selectors/ui.selector';
 
 interface Props {
   messageId: string;
@@ -24,6 +26,7 @@ const Message: FC<Props> = (props) => {
   const messages = useSelector(getMessages);
   const users = useSelector(getUsers);
   const currentUserId = useSelector(getCurrentUserId);
+  const indentWidth = useSelector(getIndentWidth);
 
   const [isShowInputArea, setIsShowInputArea] = useState(false);
   const [inputAreaAction, setInputAreaAction] = useState<'Reply' | 'Edit'>('Reply');
@@ -117,8 +120,8 @@ const Message: FC<Props> = (props) => {
         <Box key="corpus" display="flex">
           <Box
             key="contract-message"
-            width="42px"
-            minWidth="42px"
+            width={indentWidth}
+            minWidth={indentWidth}
             display="flex"
             justifyContent="center"
           >
@@ -139,44 +142,32 @@ const Message: FC<Props> = (props) => {
               <HorizontalListOverflow
                 elements={[
                   <>
-                    <Tooltip title="Vote up this message">
-                      <span>
-                        <IconButton disabled={currentUserIsOwner} onClick={onUpVote}>
-                          <KeyboardDoubleArrowUpIcon />
-                        </IconButton>
-                      </span>
-                    </Tooltip>
+                    <IconButton disabled={currentUserIsOwner} onClick={onUpVote}>
+                      <KeyboardDoubleArrowUpIcon />
+                    </IconButton>
                     <Typography component="span">{message?.vote}</Typography>
-                    <Tooltip title="Vote down this message">
-                      <span>
-                        <IconButton disabled={currentUserIsOwner} onClick={onDownVote}>
-                          <KeyboardDoubleArrowDownIcon />
-                        </IconButton>
-                      </span>
-                    </Tooltip>
+                    <IconButton disabled={currentUserIsOwner} onClick={onDownVote}>
+                      <KeyboardDoubleArrowDownIcon />
+                    </IconButton>
                   </>,
-                  <Tooltip title="Make a reply to this message">
+                  <Button
+                    color="inherit"
+                    variant="text"
+                    startIcon={<MessageOutlinedIcon />}
+                    style={{ textTransform: 'none' }}
+                    onClick={onReplyClick}
+                  >
+                    Reply
+                  </Button>,
+                  currentUserIsOwner && (
                     <Button
                       color="inherit"
                       variant="text"
-                      startIcon={<MessageOutlinedIcon />}
                       style={{ textTransform: 'none' }}
-                      onClick={onReplyClick}
+                      onClick={onEditClick}
                     >
-                      Reply
+                      Edit
                     </Button>
-                  </Tooltip>,
-                  currentUserIsOwner && (
-                    <Tooltip title="Edit this message">
-                      <Button
-                        color="inherit"
-                        variant="text"
-                        style={{ textTransform: 'none' }}
-                        onClick={onEditClick}
-                      >
-                        Edit
-                      </Button>
-                    </Tooltip>
                   ),
                 ]}
               />
@@ -189,7 +180,13 @@ const Message: FC<Props> = (props) => {
               )}
             </Box>
             <Box key="replies">
-              <Messages parentId={props.messageId} deep={props.deep + 1} />
+              {props.deep > 1 ? (
+                <Messages parentId={props.messageId} deep={props.deep - 1} />
+              ) : (
+                <Button style={{ textTransform: 'none' }} endIcon={<KeyboardArrowRightIcon />}>
+                  Continue this thread
+                </Button>
+              )}
             </Box>
           </Box>
         </Box>
