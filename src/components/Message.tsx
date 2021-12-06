@@ -13,6 +13,7 @@ import ModificationDate from './ModificationDate';
 import MessageInput from './MessageInput';
 import Messages from './Messages';
 import { useTypedDispatch } from '../utils/hooks';
+import HorizontalListOverflow from './HorizontalListOverflow';
 
 interface Props {
   messageId: string;
@@ -114,7 +115,13 @@ const Message: FC<Props> = (props) => {
       <Box mt={1}>
         {messageInfo}
         <Box key="corpus" display="flex">
-          <Box key="contract-message" width="42px" display="flex" justifyContent="center">
+          <Box
+            key="contract-message"
+            width="42px"
+            minWidth="42px"
+            display="flex"
+            justifyContent="center"
+          >
             <div onClick={toggleExpand} style={{ margin: 5 }}>
               <Box
                 borderLeft="1px solid lightgray"
@@ -128,47 +135,51 @@ const Message: FC<Props> = (props) => {
           </Box>
           <Box key="content" width="100%">
             <Box key="message-text">
-              <Typography>{message?.text}</Typography>
-              <Box key="actions">
-                <Tooltip title="Vote up this message">
-                  <span>
-                    <IconButton disabled={currentUserIsOwner} onClick={onUpVote}>
-                      <KeyboardDoubleArrowUpIcon />
-                    </IconButton>
-                  </span>
-                </Tooltip>
-                <Typography component="span">{message?.vote}</Typography>
-                <Tooltip title="Vote down this message">
-                  <span>
-                    <IconButton disabled={currentUserIsOwner} onClick={onDownVote}>
-                      <KeyboardDoubleArrowDownIcon />
-                    </IconButton>
-                  </span>
-                </Tooltip>
-                <Tooltip title="Make a reply to this message">
-                  <Button
-                    color="inherit"
-                    variant="text"
-                    startIcon={<MessageOutlinedIcon />}
-                    style={{ textTransform: 'none' }}
-                    onClick={onReplyClick}
-                  >
-                    Reply
-                  </Button>
-                </Tooltip>
-                {currentUserIsOwner && (
-                  <Tooltip title="Edit this message">
+              <Typography marginLeft="2px">{message?.text}</Typography>
+              <HorizontalListOverflow
+                elements={[
+                  <>
+                    <Tooltip title="Vote up this message">
+                      <span>
+                        <IconButton disabled={currentUserIsOwner} onClick={onUpVote}>
+                          <KeyboardDoubleArrowUpIcon />
+                        </IconButton>
+                      </span>
+                    </Tooltip>
+                    <Typography component="span">{message?.vote}</Typography>
+                    <Tooltip title="Vote down this message">
+                      <span>
+                        <IconButton disabled={currentUserIsOwner} onClick={onDownVote}>
+                          <KeyboardDoubleArrowDownIcon />
+                        </IconButton>
+                      </span>
+                    </Tooltip>
+                  </>,
+                  <Tooltip title="Make a reply to this message">
                     <Button
                       color="inherit"
                       variant="text"
+                      startIcon={<MessageOutlinedIcon />}
                       style={{ textTransform: 'none' }}
-                      onClick={onEditClick}
+                      onClick={onReplyClick}
                     >
-                      Edit
+                      Reply
                     </Button>
-                  </Tooltip>
-                )}
-              </Box>
+                  </Tooltip>,
+                  currentUserIsOwner && (
+                    <Tooltip title="Edit this message">
+                      <Button
+                        color="inherit"
+                        variant="text"
+                        style={{ textTransform: 'none' }}
+                        onClick={onEditClick}
+                      >
+                        Edit
+                      </Button>
+                    </Tooltip>
+                  ),
+                ]}
+              />
               {isShowInputArea && (
                 <MessageInput
                   buttonText={inputAreaAction}
