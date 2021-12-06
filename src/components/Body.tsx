@@ -29,6 +29,7 @@ const Body: FC = () => {
         setDeep(Math.floor((ref.clientWidth - 200) / indentWidth));
       }
     };
+    onResize();
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, [ref, indentWidth]);
