@@ -18,6 +18,7 @@ const SortByMenu: FC = () => {
   return (
     <Box borderBottom="1px solid lightgray">
       <Select
+        size="small"
         value={currentSortOrder}
         onChange={(e) => {
           onChange(e.target.value as SortOrder);

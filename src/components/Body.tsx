@@ -52,10 +52,10 @@ const Body: FC = () => {
       {currentMessageThreadExist ? (
         <>
           <Box display="flex" justifyContent="space-between">
-            <Button style={{ textTransform: 'none' }} onClick={onViewParentComment}>
+            <Button size="small" style={{ textTransform: 'none' }} onClick={onViewParentComment}>
               View parent comment
             </Button>
-            <Button style={{ textTransform: 'none' }} onClick={onViewAllComments}>
+            <Button size="small" style={{ textTransform: 'none' }} onClick={onViewAllComments}>
               View all comments
             </Button>
           </Box>

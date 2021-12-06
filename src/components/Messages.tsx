@@ -59,6 +59,7 @@ const Messages: FC<Props> = (props) => {
   if (props.deep <= 0 && sortedReplies.length > 0) {
     return (
       <Button
+        size="small"
         style={{ textTransform: 'none' }}
         endIcon={<KeyboardArrowRightIcon />}
         onClick={onContinueThread}

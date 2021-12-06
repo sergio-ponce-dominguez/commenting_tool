@@ -103,10 +103,13 @@ const Message: FC<Props> = (props) => {
   const messageInfo = (
     <Box key="message-info" display="flex" alignItems="center">
       <Box key="user-avatar">
-        <UserAvatar userId={userId} />
+        <UserAvatar size={28} userId={userId} />
       </Box>
       <Box key="user-name" display="flex">
-        <Typography sx={{ marginLeft: '2px', marginRight: '2px' }}>{`${userName} ·`}</Typography>
+        <Typography
+          variant="subtitle2"
+          sx={{ marginLeft: '2px', marginRight: '2px' }}
+        >{`${userName} ·`}</Typography>
         <ModificationDate edited={message?.edited || false} modified={modifiedDate} />
       </Box>
     </Box>
@@ -126,11 +129,14 @@ const Message: FC<Props> = (props) => {
           >
             <div onClick={toggleExpand} style={{ margin: 5 }}>
               <Box
-                borderLeft="1px solid lightgray"
+                border="7px solid white"
+                width="1px"
                 height="100%"
+                paddingLeft="1px"
                 sx={{
+                  backgroundColor: 'lightgray',
                   cursor: 'pointer',
-                  ':hover': { borderLeft: '2px solid deepskyblue' },
+                  ':hover': { backgroundColor: 'deepskyblue' },
                 }}
               />
             </div>
@@ -143,15 +149,18 @@ const Message: FC<Props> = (props) => {
               <HorizontalListOverflow
                 elements={[
                   <>
-                    <IconButton disabled={currentUserIsOwner} onClick={onUpVote}>
-                      <KeyboardDoubleArrowUpIcon />
+                    <IconButton size="small" disabled={currentUserIsOwner} onClick={onUpVote}>
+                      <KeyboardDoubleArrowUpIcon fontSize="small" />
                     </IconButton>
-                    <Typography component="span">{message?.vote}</Typography>
-                    <IconButton disabled={currentUserIsOwner} onClick={onDownVote}>
-                      <KeyboardDoubleArrowDownIcon />
+                    <Typography variant="subtitle2" component="span">
+                      {message?.vote}
+                    </Typography>
+                    <IconButton size="small" disabled={currentUserIsOwner} onClick={onDownVote}>
+                      <KeyboardDoubleArrowDownIcon fontSize="small" />
                     </IconButton>
                   </>,
                   <Button
+                    size="small"
                     color="inherit"
                     variant="text"
                     startIcon={<MessageOutlinedIcon />}
@@ -162,6 +171,7 @@ const Message: FC<Props> = (props) => {
                   </Button>,
                   currentUserIsOwner && (
                     <Button
+                      size="small"
                       color="inherit"
                       variant="text"
                       style={{ textTransform: 'none' }}
@@ -190,8 +200,8 @@ const Message: FC<Props> = (props) => {
   } else {
     return (
       <Box mt={1} display="flex">
-        <IconButton onClick={toggleExpand}>
-          <OpenInFullIcon />
+        <IconButton size="small" onClick={toggleExpand}>
+          <OpenInFullIcon fontSize="small" />
         </IconButton>
         {messageInfo}
       </Box>

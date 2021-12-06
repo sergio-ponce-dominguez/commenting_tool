@@ -15,13 +15,13 @@ type State = {
 const initialState: State = {
   currentUserId: '1',
   users: {
-    '1': { id: '1', name: 'Ricardo' },
-    '2': { id: '2', name: 'Maria' },
-    '3': { id: '3', name: 'Alfonso' },
-    '4': { id: '4', name: 'John' },
-    '5': { id: '5', name: 'Jessica' },
-    '6': { id: '6', name: 'Sergio' },
-    '7': { id: '7', name: 'Karla' },
+    '1': { id: '1', name: 'Ricardo', color: 'brown' },
+    '2': { id: '2', name: 'Maria', color: 'aqua' },
+    '3': { id: '3', name: 'Alfonso', color: 'black' },
+    '4': { id: '4', name: 'John', color: 'blue' },
+    '5': { id: '5', name: 'Jessica', color: 'blueviolet' },
+    '6': { id: '6', name: 'Sergio', color: 'burlywood' },
+    '7': { id: '7', name: 'Karla', color: 'chocolate' },
   },
 
   messages: {
