@@ -1,3 +1,7 @@
+# Description
+
+This project is a simulation of how the chat on [Reddit](https://www.reddit.com/) function
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
