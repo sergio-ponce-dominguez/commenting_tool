@@ -149,13 +149,23 @@ const Message: FC<Props> = (props) => {
               <HorizontalListOverflow
                 elements={[
                   <>
-                    <IconButton size="small" disabled={currentUserIsOwner} onClick={onUpVote}>
+                    <IconButton
+                      size="small"
+                      disabled={currentUserIsOwner}
+                      onClick={onUpVote}
+                      sx={{ color: 'gray' }}
+                    >
                       <KeyboardDoubleArrowUpIcon fontSize="small" />
                     </IconButton>
                     <Typography variant="subtitle2" component="span">
                       {message?.vote}
                     </Typography>
-                    <IconButton size="small" disabled={currentUserIsOwner} onClick={onDownVote}>
+                    <IconButton
+                      size="small"
+                      disabled={currentUserIsOwner}
+                      onClick={onDownVote}
+                      sx={{ color: 'gray' }}
+                    >
                       <KeyboardDoubleArrowDownIcon fontSize="small" />
                     </IconButton>
                   </>,
@@ -164,7 +174,7 @@ const Message: FC<Props> = (props) => {
                     color="inherit"
                     variant="text"
                     startIcon={<MessageOutlinedIcon />}
-                    style={{ textTransform: 'none' }}
+                    sx={{ textTransform: 'none', fontWeight: 'bold', color: 'gray' }}
                     onClick={onReplyClick}
                   >
                     Reply
@@ -174,7 +184,7 @@ const Message: FC<Props> = (props) => {
                       size="small"
                       color="inherit"
                       variant="text"
-                      style={{ textTransform: 'none' }}
+                      sx={{ textTransform: 'none', fontWeight: 'bold', color: 'gray' }}
                       onClick={onEditClick}
                     >
                       Edit

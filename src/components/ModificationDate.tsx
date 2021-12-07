@@ -2,10 +2,19 @@ import React, { FC, useEffect, useState } from 'react';
 import { Tooltip, Typography } from '@mui/material';
 
 interface Props {
+  /**
+   * ses if it is a modification or a creation
+   */
   edited: boolean;
+  /**
+   * date of creation or modification
+   */
   modified: Date;
 }
 
+/**
+ * display how much time has passed since the last modification or creation
+ */
 const ModificationDate: FC<Props> = (props) => {
   const [timeLapsed, setTimeLapsed] = useState('seconds');
 
@@ -43,9 +52,9 @@ const ModificationDate: FC<Props> = (props) => {
 
   return (
     <Tooltip title={props.modified.toString()} placement="top">
-      <Typography variant="subtitle2">{`${
-        props.edited ? 'Edited ' : ''
-      }${timeLapsed} ago`}</Typography>
+      <Typography variant="subtitle2" color="gray">
+        {`${props.edited ? 'Edited ' : ''}${timeLapsed} ago`}
+      </Typography>
     </Tooltip>
   );
 };
