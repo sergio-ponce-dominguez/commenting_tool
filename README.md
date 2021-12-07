@@ -2,6 +2,8 @@
 
 This project is a simulation of how the chat on [Reddit](https://www.reddit.com/) function
 
+You can choose one of the predefined users, and then make a comment, you can make a reply to a comment, or edit your own comments. You can vote up or down to others comments, and sort replies or globals comments by vote or date.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
