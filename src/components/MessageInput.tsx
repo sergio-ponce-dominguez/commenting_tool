@@ -48,7 +48,7 @@ const MessageInput: FC<Props> = (props) => {
       <TextareaAutosize
         style={{
           minWidth: '100%',
-          maxWidth: '100%',
+          maxWidth: 'fit-content',
           minHeight: '139px',
           height: '139px',
           overflow: 'auto',
