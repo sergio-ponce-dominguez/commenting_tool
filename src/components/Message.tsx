@@ -6,7 +6,7 @@ import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrow
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import { useSelector } from 'react-redux';
 import { getMessages } from '../redux/selectors/message.selector';
-import { Button, IconButton, Typography } from '@mui/material';
+import { Button, Collapse, Grow, IconButton, Typography } from '@mui/material';
 import { getCurrentUserId, getUsers } from '../redux/selectors/user.selector';
 import UserAvatar from './UserAvatar';
 import ModificationDate from './ModificationDate';
@@ -15,6 +15,7 @@ import Messages from './Messages';
 import { useTypedDispatch } from '../utils/hooks';
 import HorizontalListOverflow from './HorizontalListOverflow';
 import { getIndentWidth } from '../redux/selectors/ui.selector';
+import { TransitionGroup } from 'react-transition-group';
 
 interface Props {
   messageId: string;
@@ -100,25 +101,37 @@ const Message: FC<Props> = (props) => {
     }
   };
 
-  const messageInfo = (
-    <Box key="message-info" display="flex" alignItems="center">
-      <Box key="user-avatar">
-        <UserAvatar size={28} userId={userId} />
+  return (
+    <Box mt={1}>
+      <Box key="message-info" display="flex" alignItems="center" position="relative" left={-30}>
+        <TransitionGroup>
+          {!isExpanded && (
+            <Collapse orientation="horizontal">
+              <Box width={30} />
+            </Collapse>
+          )}
+        </TransitionGroup>
+        <Grow
+          in={!isExpanded}
+          style={{ transformOrigin: '0 0 0' }}
+          timeout={!isExpanded ? 1000 : undefined}
+        >
+          <IconButton size="small" onClick={toggleExpand}>
+            <OpenInFullIcon fontSize="small" />
+          </IconButton>
+        </Grow>
+        <Box key="user-avatar">
+          <UserAvatar size={28} userId={userId} />
+        </Box>
+        <Box key="user-name" display="flex">
+          <Typography
+            variant="subtitle2"
+            sx={{ marginLeft: '2px', marginRight: '2px' }}
+          >{`${userName} ·`}</Typography>
+          <ModificationDate edited={message?.edited || false} modified={modifiedDate} />
+        </Box>
       </Box>
-      <Box key="user-name" display="flex">
-        <Typography
-          variant="subtitle2"
-          sx={{ marginLeft: '2px', marginRight: '2px' }}
-        >{`${userName} ·`}</Typography>
-        <ModificationDate edited={message?.edited || false} modified={modifiedDate} />
-      </Box>
-    </Box>
-  );
-
-  if (isExpanded) {
-    return (
-      <Box mt={1}>
-        {messageInfo}
+      <Collapse in={isExpanded}>
         <Box key="corpus" display="flex">
           <Box
             key="contract-message"
@@ -126,6 +139,8 @@ const Message: FC<Props> = (props) => {
             minWidth={indentWidth}
             display="flex"
             justifyContent="center"
+            position="relative"
+            zIndex={1}
           >
             <div onClick={toggleExpand} style={{ margin: 5 }}>
               <Box
@@ -192,32 +207,27 @@ const Message: FC<Props> = (props) => {
                   ),
                 ]}
               />
-              {isShowInputArea && (
-                <MessageInput
-                  buttonText={inputAreaAction}
-                  onCancel={onCancel}
-                  onSubmit={onSubmit}
-                  initialText={inputAreaAction === 'Edit' ? message?.text : undefined}
-                />
-              )}
+              <TransitionGroup>
+                {isShowInputArea && (
+                  <Collapse>
+                    <MessageInput
+                      buttonText={inputAreaAction}
+                      onCancel={onCancel}
+                      onSubmit={onSubmit}
+                      initialText={inputAreaAction === 'Edit' ? message?.text : undefined}
+                    />
+                  </Collapse>
+                )}
+              </TransitionGroup>
             </Box>
             <Box key="replies">
               <Messages parentId={props.messageId} deep={props.deep - 1} />
             </Box>
           </Box>
         </Box>
-      </Box>
-    );
-  } else {
-    return (
-      <Box mt={1} display="flex">
-        <IconButton size="small" onClick={toggleExpand}>
-          <OpenInFullIcon fontSize="small" />
-        </IconButton>
-        {messageInfo}
-      </Box>
-    );
-  }
+      </Collapse>
+    </Box>
+  );
 };
 
 export default Message;
